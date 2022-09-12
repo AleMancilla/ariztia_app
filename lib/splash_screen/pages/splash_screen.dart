@@ -1,3 +1,4 @@
+import 'package:ariztia_app/core/function_utils.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -18,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    Size size = getSizeByContext(context);
     return Scaffold(
       body: Center(
         child: Image.asset(

@@ -1,4 +1,4 @@
-import 'package:ariztia_app/menu/pages/menu_screen.dart';
+import 'package:ariztia_app/menu/presentation/pages/menu_screen.dart';
 import 'package:ariztia_app/splash_screen/pages/splash_screen.dart';
 import 'package:flutter/material.dart';
 
