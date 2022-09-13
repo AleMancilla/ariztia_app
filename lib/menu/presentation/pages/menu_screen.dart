@@ -5,6 +5,7 @@ import 'package:ariztia_app/menu/presentation/bloc/products_bloc/products_bloc.d
 import 'package:ariztia_app/menu/presentation/bloc/products_bloc/products_utils.dart';
 import 'package:ariztia_app/menu/presentation/widgets/app_bar_ariztia.dart';
 import 'package:ariztia_app/menu/presentation/widgets/categories_list.dart';
+import 'package:ariztia_app/menu/presentation/widgets/item_product_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -41,10 +42,15 @@ class _MenuScreenState extends State<MenuScreen> {
                     return const Text('cargando....');
                   }
                   if (state is ProductsFinalState) {
-                    return ListView(
-                      children:
-                          state.listProduct.map((e) => Text(e.name)).toList(),
-                      scrollDirection: Axis.vertical,
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 5),
+                      child: ListView(
+                        children: state.listProduct
+                            .map((e) => ItemProductList(product: e))
+                            .toList(),
+                        scrollDirection: Axis.vertical,
+                      ),
                     );
                   }
                   return Container();
