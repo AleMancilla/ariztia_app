@@ -7,9 +7,9 @@ abstract class CategoryState {
 }
 
 class CategoryInitState extends CategoryState {
-  CategoryInitState() : super('No Information');
+  const CategoryInitState() : super('No Information');
 }
 
 class CategorySelectState extends CategoryState {
-  CategorySelectState(String categorie) : super(categorie);
+  const CategorySelectState(String categorie) : super(categorie);
 }

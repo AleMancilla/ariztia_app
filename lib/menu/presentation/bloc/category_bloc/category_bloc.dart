@@ -5,7 +5,7 @@ part 'category_event.dart';
 part 'category_state.dart';
 
 class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
-  CategoryBloc() : super(CategoryInitState()) {
+  CategoryBloc() : super(const CategoryInitState()) {
     on<CategoryInitialEvent>((event, emit) {
       emit(CategorySelectState(event.categorie));
     });

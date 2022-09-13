@@ -1,6 +1,8 @@
 import 'package:ariztia_app/menu/data/datasource/get_products_firestore_datasource.dart';
 import 'package:ariztia_app/menu/data/models/product_model.dart';
 import 'package:ariztia_app/menu/presentation/bloc/category_bloc/category_bloc.dart';
+import 'package:ariztia_app/menu/presentation/bloc/products_bloc/products_bloc.dart';
+import 'package:ariztia_app/menu/presentation/bloc/products_bloc/products_utils.dart';
 import 'package:ariztia_app/menu/presentation/widgets/app_bar_ariztia.dart';
 import 'package:ariztia_app/menu/presentation/widgets/categories_list.dart';
 import 'package:flutter/material.dart';
@@ -15,21 +17,40 @@ class MenuScreen extends StatefulWidget {
 
 class _MenuScreenState extends State<MenuScreen> {
   @override
+  void initState() {
+    chargeAllProducts(context);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final CategoryBloc categoryBloc =
         BlocProvider.of<CategoryBloc>(context, listen: false);
+    // final ProductsBloc productsBloc =
+    //     BlocProvider.of<ProductsBloc>(context, listen: true);
     return SafeArea(
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(onPressed: () async {
-          // OU0xmGobwJr7GrjJYAAr - ARISTIA
-          List<ProductModel> lista = await GetProductsFirestoreDatasource()
-              .readArticles('OU0xmGobwJr7GrjJYAAr');
-          print(lista);
-        }),
         body: Column(
           children: [
-            AppBarAriztia(),
+            const AppBarAriztia(),
             CategoriesList(categoryBloc: categoryBloc),
+            Expanded(
+              child: BlocBuilder<ProductsBloc, ProductsState>(
+                builder: (context, state) {
+                  if (state is ProductsLoadState) {
+                    return const Text('cargando....');
+                  }
+                  if (state is ProductsFinalState) {
+                    return ListView(
+                      children:
+                          state.listProduct.map((e) => Text(e.name)).toList(),
+                      scrollDirection: Axis.vertical,
+                    );
+                  }
+                  return Container();
+                },
+              ),
+            ),
           ],
         ),
       ),

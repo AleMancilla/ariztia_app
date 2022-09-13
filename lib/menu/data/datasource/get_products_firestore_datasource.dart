@@ -5,7 +5,7 @@ import 'package:ariztia_app/menu/data/models/product_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class GetProductsFirestoreDatasource {
-  Future<List<ProductModel>> readArticles(String idBusiness) async {
+  Future<List<ProductModel>> readProducts(String idBusiness) async {
     List<ProductModel> listProducts = [];
     print('===>> entro a readArticles == ');
     await products
@@ -22,7 +22,7 @@ class GetProductsFirestoreDatasource {
           List<String> listDays = List<String>.from(arrayDays);
 
           List arrayOptions = _json['options']; // array is now List<dynamic>
-          print(arrayOptions);
+          // print(arrayOptions);
           List<Options> listOptions = arrayOptions.map<Options>((e) {
             List arrayOptionsItems = e['options']; // array is now List<dynamic>
             List<ItemOptions> listItemOptions = arrayOptionsItems
@@ -57,7 +57,7 @@ class GetProductsFirestoreDatasource {
               options: listOptions);
 
           listProducts.add(productModel);
-          log(_json.toString());
+          // log(_json.toString());
           print('===>> entro a for ==  FINALIZOOO');
         } catch (e) {
           print('===>> entro a error ==  $e');
