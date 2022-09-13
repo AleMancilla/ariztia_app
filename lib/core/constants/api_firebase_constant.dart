@@ -1,5 +1,6 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-// CollectionReference users = FirebaseFirestore.instance.collection('user');
+CollectionReference products =
+    FirebaseFirestore.instance.collection('Products');
 // CollectionReference articles = FirebaseFirestore.instance.collection('article');
 // CollectionReference groups = FirebaseFirestore.instance.collection('group');
