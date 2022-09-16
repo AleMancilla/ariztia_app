@@ -2,7 +2,9 @@ import 'package:ariztia_app/core/utils.dart';
 import 'package:ariztia_app/menu/presentation/bloc/category_bloc/category_bloc.dart';
 import 'package:ariztia_app/menu/presentation/bloc/products_bloc/products_bloc.dart';
 import 'package:ariztia_app/menu/presentation/bloc/products_bloc/products_utils.dart';
-import 'package:ariztia_app/menu/presentation/pages/product_page.dart';
+import 'package:ariztia_app/menu/presentation/bloc/shop_bloc/shop_bloc.dart';
+import 'package:ariztia_app/menu/presentation/pages/product_screen.dart';
+import 'package:ariztia_app/menu/presentation/pages/shop_details_screen.dart';
 import 'package:ariztia_app/menu/presentation/widgets/app_bar_ariztia.dart';
 import 'package:ariztia_app/menu/presentation/widgets/categories_list.dart';
 import 'package:ariztia_app/menu/presentation/widgets/item_product_list.dart';
@@ -27,8 +29,10 @@ class _MenuScreenState extends State<MenuScreen> {
   Widget build(BuildContext context) {
     final CategoryBloc categoryBloc =
         BlocProvider.of<CategoryBloc>(context, listen: false);
+    final ShopBloc shopBloc = BlocProvider.of<ShopBloc>(context, listen: true);
     // final ProductsBloc productsBloc =
     //     BlocProvider.of<ProductsBloc>(context, listen: true);
+    final Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
         body: Column(
@@ -55,7 +59,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                   child: ItemProductList(product: e),
                                   onTap: () {
                                     navigateToPage(
-                                        context, ProductPage(product: e));
+                                        context, ProductScreen(product: e));
                                   },
                                 ),
                               ),
@@ -68,6 +72,45 @@ class _MenuScreenState extends State<MenuScreen> {
                   return Container();
                 },
               ),
+            ),
+            if (shopBloc.state.listProductShop.isNotEmpty)
+              _btnConfirmarPedido(size, shopBloc),
+          ],
+        ),
+      ),
+    );
+  }
+
+  InkWell _btnConfirmarPedido(Size size, ShopBloc shopBloc) {
+    return InkWell(
+      onTap: () {
+        navigateToPage(context, const ShopDetailsScreen());
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+          color: Colors.red[900],
+        ),
+        width: size.width,
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        alignment: Alignment.center,
+        margin: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          children: [
+            const Text(
+              'Confirmar Pedido',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  color: Colors.white),
+            ),
+            Text(
+              '(${shopBloc.state.listProductShop.length}) items',
+              style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 10,
+                  color: Colors.white),
             ),
           ],
         ),

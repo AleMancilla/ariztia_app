@@ -24,16 +24,8 @@ Future getAllProducts(ProductsBloc _productsBloc, String idBusinnes) async {
   await readProductsFirestoreRepositoryImplements
       .readListProducts(idBusinnes)
       .then((value) {
-    // print('====>>>>>xx $value');
     _productsBloc.add(ProductsFinalEvent(value));
   }).onError((error, stackTrace) {
     return throw '$error';
   });
 }
-
-// Widget chargeAllArticlesWidget(BuildContext context,
-//     {ArticleBloc? articleBloc}) {
-//   chargeAllArticles(context, articleBloc: articleBloc);
-
-//   return Container();
-// }

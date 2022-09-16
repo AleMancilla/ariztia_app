@@ -1,19 +1,23 @@
 import 'package:ariztia_app/menu/data/models/product_model.dart';
+import 'package:ariztia_app/menu/presentation/bloc/shop_bloc/shop_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ProductPage extends StatefulWidget {
-  const ProductPage({Key? key, required this.product}) : super(key: key);
+class ProductScreen extends StatefulWidget {
+  const ProductScreen({Key? key, required this.product}) : super(key: key);
   final ProductModel product;
 
   @override
-  State<ProductPage> createState() => _ProductPageState();
+  State<ProductScreen> createState() => _ProductScreenState();
 }
 
-class _ProductPageState extends State<ProductPage> {
+class _ProductScreenState extends State<ProductScreen> {
   int amount = 1;
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+
+    final ShopBloc shopBloc = BlocProvider.of<ShopBloc>(context, listen: true);
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -23,16 +27,20 @@ class _ProductPageState extends State<ProductPage> {
           _titleProcuct(),
           _description(),
           _options(),
-          _btnAgregarProducto(size)
+          _btnAgregarProducto(size, shopBloc)
         ],
       ),
     );
   }
 
-  InkWell _btnAgregarProducto(Size size) {
+  InkWell _btnAgregarProducto(Size size, ShopBloc shopBloc) {
     return InkWell(
       onTap: () {
-        print(widget.product.options);
+        shopBloc.add(ShopAddProductEvent([
+          ...shopBloc.state.listProductShop,
+          ProductShop(amount, widget.product)
+        ]));
+        Navigator.pop(context);
       },
       child: Container(
         decoration: BoxDecoration(
@@ -75,7 +83,6 @@ class _ProductPageState extends State<ProductPage> {
                         children: e.optionsItems
                             .map((ItemOptions item) => InkWell(
                                   onTap: () {
-                                    print('------ ${item.name}');
                                     item.isSelect = !item.isSelect;
                                     setState(() {});
                                   },
