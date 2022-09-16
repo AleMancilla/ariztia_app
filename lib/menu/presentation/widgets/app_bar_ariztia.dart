@@ -12,7 +12,7 @@ class AppBarAriztia extends StatelessWidget {
       // color: Colors.red,
       child: Center(
         child: Image.asset(
-          'assets/images/ariztia_logo.png',
+          'assets/images/ariztia_logo_sin_texto.png',
           width: size.width * 0.7,
         ),
       ),

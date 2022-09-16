@@ -7,14 +7,11 @@ class CategoriesList extends StatefulWidget {
   const CategoriesList({
     Key? key,
     this.categories = const [
-      'opcion 1',
-      'opcion 2',
-      'opcion 3',
-      'opcion 4',
-      'opcion 5',
-      'opcion 6',
-      'opcion 7',
-      'opcion 8'
+      'Platos Fuertes',
+      'Hamburguesas',
+      'Helados',
+      'Postres  ',
+      'Bebidas',
     ],
     required this.categoryBloc,
   }) : super(key: key);

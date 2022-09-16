@@ -1,4 +1,6 @@
+import 'package:ariztia_app/core/utils.dart';
 import 'package:ariztia_app/menu/presentation/bloc/shop_bloc/shop_bloc.dart';
+import 'package:ariztia_app/menu/presentation/pages/order_complete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -136,6 +138,7 @@ class _ShopDetailsScreenState extends State<ShopDetailsScreen> {
         //   ProductShop(amount, widget.product)
         // ]));
         // Navigator.pop(context);
+        navigateToPageAndRemove(context, OrderComplete());
       },
       child: Container(
         decoration: BoxDecoration(
