@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:ariztia_app/core/constants/api_firebase_constant.dart';
 import 'package:ariztia_app/menu/data/models/product_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,14 +5,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class GetProductsFirestoreDatasource {
   Future<List<ProductModel>> readProducts(String idBusiness) async {
     List<ProductModel> listProducts = [];
-    print('===>> entro a readArticles == ');
     await products
         .where('idBusiness', isEqualTo: idBusiness)
         .get()
         .then((QuerySnapshot querySnapshot) {
-      print('===>> entro a QuerySnapshot == ');
       for (var doc in querySnapshot.docs) {
-        print('===>> entro a for == ');
         try {
           Map _json = (doc.data() as Map);
 
@@ -22,7 +17,6 @@ class GetProductsFirestoreDatasource {
           List<String> listDays = List<String>.from(arrayDays);
 
           List arrayOptions = _json['options']; // array is now List<dynamic>
-          // print(arrayOptions);
           List<Options> listOptions = arrayOptions.map<Options>((e) {
             List arrayOptionsItems = e['options']; // array is now List<dynamic>
             List<ItemOptions> listItemOptions = arrayOptionsItems
@@ -58,14 +52,11 @@ class GetProductsFirestoreDatasource {
 
           listProducts.add(productModel);
           // log(_json.toString());
-          print('===>> entro a for ==  FINALIZOOO');
         } catch (e) {
-          print('===>> entro a error ==  $e');
           throw 'Error de lectura: $e';
         }
       }
     });
-    print('===>> dale de toooooooooooooooe');
 
     return listProducts;
   }

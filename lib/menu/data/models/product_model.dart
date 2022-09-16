@@ -125,9 +125,9 @@ class ProductModel {
 
   Map<String, Object> toJson() {
     var listaMapa = <Map>[];
-    options.forEach((element) {
+    for (var element in options) {
       listaMapa.add(element.toJson());
-    });
+    }
     return {
       'city': city.toString(),
       'days': days,
@@ -174,9 +174,9 @@ class Options {
   Map<String, Object> toJson() {
     var listaMapa = <Map>[];
 
-    optionsItems.forEach((element) {
+    for (var element in optionsItems) {
       listaMapa.add(element.toJson());
-    });
+    }
     return {'optionsItems': listaMapa, 'quantity': quantity, 'title': title};
   }
 

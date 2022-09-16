@@ -1,4 +1,3 @@
-import 'package:ariztia_app/menu/data/models/product_model.dart';
 import 'package:ariztia_app/menu/presentation/bloc/category_bloc/category_bloc.dart';
 import 'package:ariztia_app/menu/presentation/bloc/products_bloc/products_bloc.dart';
 import 'package:ariztia_app/menu/presentation/pages/menu_screen.dart';
@@ -13,7 +12,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(AppState());
+  runApp(const AppState());
 }
 
 class AppState extends StatelessWidget {
@@ -39,8 +38,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Ariztia',
       routes: {
-        'splash': (context) => SplashScreen(),
-        'menu_screen': (context) => MenuScreen(),
+        'splash': (context) => const SplashScreen(),
+        'menu_screen': (context) => const MenuScreen(),
       },
       initialRoute: 'splash',
     );

@@ -7,7 +7,7 @@ class AppBarAriztia extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = getSizeByContext(context);
-    return Container(
+    return SizedBox(
       height: 70,
       // color: Colors.red,
       child: Center(

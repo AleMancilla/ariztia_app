@@ -1,5 +1,3 @@
-import 'package:ariztia_app/menu/data/datasource/get_products_firestore_datasource.dart';
-import 'package:ariztia_app/menu/data/models/product_model.dart';
 import 'package:ariztia_app/menu/presentation/bloc/category_bloc/category_bloc.dart';
 import 'package:ariztia_app/menu/presentation/bloc/products_bloc/products_bloc.dart';
 import 'package:ariztia_app/menu/presentation/bloc/products_bloc/products_utils.dart';
@@ -34,7 +32,9 @@ class _MenuScreenState extends State<MenuScreen> {
         body: Column(
           children: [
             const AppBarAriztia(),
+            const SizedBox(height: 10),
             CategoriesList(categoryBloc: categoryBloc),
+            const SizedBox(height: 10),
             Expanded(
               child: BlocBuilder<ProductsBloc, ProductsState>(
                 builder: (context, state) {
@@ -47,7 +47,16 @@ class _MenuScreenState extends State<MenuScreen> {
                           horizontal: 15, vertical: 5),
                       child: ListView(
                         children: state.listProduct
-                            .map((e) => ItemProductList(product: e))
+                            .map(
+                              (e) => Material(
+                                child: InkWell(
+                                  child: ItemProductList(product: e),
+                                  onTap: () {
+                                    print('---------');
+                                  },
+                                ),
+                              ),
+                            )
                             .toList(),
                         scrollDirection: Axis.vertical,
                       ),

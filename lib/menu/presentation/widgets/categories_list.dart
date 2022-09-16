@@ -41,7 +41,6 @@ class _CategoriesListState extends State<CategoriesList> {
       scrollDirection: Axis.horizontal,
       child: BlocBuilder<CategoryBloc, CategoryState>(
         builder: (_, state) {
-          print('===> category = ${state.categorie}');
           return Row(
             children: widget.categories
                 .map((e) => _btnCategorie(e, context))
@@ -55,7 +54,6 @@ class _CategoriesListState extends State<CategoriesList> {
   InkWell _btnCategorie(String e, BuildContext contextc) => InkWell(
         onTap: () {
           widget.categoryBloc.add(CategoryChangeEvent(e));
-          print(e);
         },
         child: CategorieItem(title: e, categoryBloc: widget.categoryBloc),
       );

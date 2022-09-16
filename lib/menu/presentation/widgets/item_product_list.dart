@@ -34,14 +34,24 @@ class ItemProductList extends StatelessWidget {
                     child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(product.name),
-                    Text(product.price.toString()),
+                    Text(
+                      product.name,
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      product.price.toString(),
+                      style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.red),
+                    ),
                     Expanded(child: Text(product.description.toString()))
                   ],
                 )),
               ],
             ),
-            height: 100,
+            height: 105,
             width: double.infinity,
           ),
           Positioned(
@@ -56,8 +66,52 @@ class ItemProductList extends StatelessWidget {
             height: 120,
             width: 150,
           ),
+          Positioned(
+            right: -20,
+            child: RotationTransition(
+              turns: const AlwaysStoppedAnimation(270 / 360),
+              child: ClipPath(
+                clipper: CustomClip(),
+                child: Container(
+                  width: 70,
+                  height: 35,
+                  color: Colors.red,
+                ),
+              ),
+            ),
+          ),
+          const Positioned(
+            child: Icon(Icons.add, color: Colors.white),
+            right: 0,
+          )
         ],
       ),
     );
+  }
+}
+
+class CustomClip extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    double radius = 35;
+
+    Path path = Path();
+    path
+      ..moveTo(size.width / 2, 0)
+      ..arcToPoint(Offset(size.width, size.height),
+          radius: Radius.circular(radius))
+      ..lineTo(0, size.height)
+      ..arcToPoint(
+        Offset(size.width / 2, 0),
+        radius: Radius.circular(radius),
+      )
+      ..close();
+
+    return path;
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
+    return true;
   }
 }
