@@ -1,6 +1,8 @@
+import 'package:ariztia_app/core/utils.dart';
 import 'package:ariztia_app/menu/presentation/bloc/category_bloc/category_bloc.dart';
 import 'package:ariztia_app/menu/presentation/bloc/products_bloc/products_bloc.dart';
 import 'package:ariztia_app/menu/presentation/bloc/products_bloc/products_utils.dart';
+import 'package:ariztia_app/menu/presentation/pages/product_page.dart';
 import 'package:ariztia_app/menu/presentation/widgets/app_bar_ariztia.dart';
 import 'package:ariztia_app/menu/presentation/widgets/categories_list.dart';
 import 'package:ariztia_app/menu/presentation/widgets/item_product_list.dart';
@@ -52,7 +54,8 @@ class _MenuScreenState extends State<MenuScreen> {
                                 child: InkWell(
                                   child: ItemProductList(product: e),
                                   onTap: () {
-                                    print('---------');
+                                    navigateToPage(
+                                        context, ProductPage(product: e));
                                   },
                                 ),
                               ),
