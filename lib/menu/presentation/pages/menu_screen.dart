@@ -1,4 +1,5 @@
 import 'package:ariztia_app/core/utils.dart';
+import 'package:ariztia_app/menu/presentation/bloc/business_bloc/business_bloc.dart';
 import 'package:ariztia_app/menu/presentation/bloc/category_bloc/category_bloc.dart';
 import 'package:ariztia_app/menu/presentation/bloc/products_bloc/products_bloc.dart';
 import 'package:ariztia_app/menu/presentation/bloc/products_bloc/products_utils.dart';
@@ -21,7 +22,11 @@ class MenuScreen extends StatefulWidget {
 class _MenuScreenState extends State<MenuScreen> {
   @override
   void initState() {
-    chargeAllProducts(context);
+    Future.delayed(Duration.zero, () {
+      final BusinessBloc businessBloc =
+          BlocProvider.of<BusinessBloc>(context, listen: false);
+      chargeAllProducts(context, idBusinnes: businessBloc.state.idBusiness);
+    });
     super.initState();
   }
 

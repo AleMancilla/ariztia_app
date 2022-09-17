@@ -12,7 +12,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     Future.delayed(const Duration(milliseconds: 3500), () {
-      Navigator.pushReplacementNamed(context, 'menu_screen');
+      Navigator.pushReplacementNamed(context, 'selected_business');
     });
     super.initState();
   }

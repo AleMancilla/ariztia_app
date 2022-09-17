@@ -1,7 +1,9 @@
+import 'package:ariztia_app/menu/presentation/bloc/business_bloc/business_bloc.dart';
 import 'package:ariztia_app/menu/presentation/bloc/category_bloc/category_bloc.dart';
 import 'package:ariztia_app/menu/presentation/bloc/products_bloc/products_bloc.dart';
 import 'package:ariztia_app/menu/presentation/bloc/shop_bloc/shop_bloc.dart';
 import 'package:ariztia_app/menu/presentation/pages/menu_screen.dart';
+import 'package:ariztia_app/menu/presentation/pages/selected_bussiness_screen.dart';
 import 'package:ariztia_app/splash_screen/pages/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,6 +29,7 @@ class AppState extends StatelessWidget {
         BlocProvider<CategoryBloc>(create: (_) => CategoryBloc()),
         BlocProvider<ProductsBloc>(create: (_) => ProductsBloc()),
         BlocProvider<ShopBloc>(create: (_) => ShopBloc()),
+        BlocProvider<BusinessBloc>(create: (_) => BusinessBloc()),
       ],
     );
   }
@@ -42,6 +45,7 @@ class MyApp extends StatelessWidget {
       routes: {
         'splash': (context) => const SplashScreen(),
         'menu_screen': (context) => const MenuScreen(),
+        'selected_business': (context) => const SelectedBusinessScreen(),
       },
       initialRoute: 'splash',
     );
