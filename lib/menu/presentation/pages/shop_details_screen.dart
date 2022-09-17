@@ -16,7 +16,9 @@ class ShopDetailsScreen extends StatefulWidget {
 
 class _ShopDetailsScreenState extends State<ShopDetailsScreen> {
   TextEditingController controllerRazonSocial = TextEditingController();
+  TextEditingController controllertype = TextEditingController();
   TextEditingController controllerCi = TextEditingController();
+  String typeOrder = 'Mesa';
   @override
   Widget build(BuildContext context) {
     final ShopBloc shopBloc = BlocProvider.of<ShopBloc>(context, listen: false);
@@ -81,16 +83,50 @@ class _ShopDetailsScreenState extends State<ShopDetailsScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Total',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          Text(
+                            'Bs. ${_getTotalPrice(shopBloc)}',
+                            style: TextStyle(
+                                color: Colors.grey[800],
+                                fontSize: 25,
+                                fontWeight: FontWeight.w400),
+                          ),
+                        ],
+                      ),
+                      Expanded(child: Container()),
+                      Row(
+                        children: [
+                          _radioButton('Mesa'),
+                          const SizedBox(width: 10),
+                          _radioButton('Para llevar'),
+                        ],
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 20),
                   Text(
-                    'Total',
+                    typeOrder == 'Mesa'
+                        ? 'Ingresa el nro de mesa'
+                        : 'Ingresa tu numer de whatsapp',
                     style: TextStyle(fontSize: 20),
                   ),
-                  Text(
-                    'Bs. ${_getTotalPrice(shopBloc)}',
-                    style: TextStyle(
-                        color: Colors.grey[800],
-                        fontSize: 25,
-                        fontWeight: FontWeight.w400),
+                  SizedBox(height: 10),
+                  Container(
+                    height: 40,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                      ),
+                      controller: controllertype,
+                    ),
                   ),
                   SizedBox(height: 20),
                   Text(
@@ -133,6 +169,52 @@ class _ShopDetailsScreenState extends State<ShopDetailsScreen> {
     );
   }
 
+  Column _radioButton(String title) {
+    bool isSelect = (typeOrder == title);
+    return Column(
+      children: [
+        Text(
+          title,
+          style: TextStyle(fontSize: 20),
+        ),
+        InkWell(
+          onTap: () {
+            typeOrder = title;
+            setState(() {});
+          },
+          child: Container(
+            width: 35,
+            height: 35,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: isSelect ? Colors.red[800] : Colors.grey,
+            ),
+            child: Padding(
+              padding: EdgeInsets.all(3),
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white,
+                ),
+                child: isSelect
+                    ? Padding(
+                        padding: EdgeInsets.all(5),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: isSelect ? Colors.red[800] : Colors.grey,
+                          ),
+                        ),
+                      )
+                    : Container(),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   InkWell _btnEnviarPedido(Size size, ShopBloc shopBloc) {
     return InkWell(
       onTap: () {
@@ -140,7 +222,13 @@ class _ShopDetailsScreenState extends State<ShopDetailsScreen> {
         List<Map<String, dynamic>> _listToSend =
             listToSend.map((e) => e.toJson()).toList();
         try {
-          Map<String, dynamic> toSend = {'listOrders': _listToSend};
+          Map<String, dynamic> toSend = {
+            'list_orders': _listToSend,
+            'razon_social': controllerRazonSocial.text,
+            'ci_nit': controllerCi,
+            'type_order': typeOrder,
+            'info_order': controllertype.text,
+          };
           print(toSend);
           print('_____________________');
           ariztiaOrders
@@ -150,7 +238,8 @@ class _ShopDetailsScreenState extends State<ShopDetailsScreen> {
         } catch (e) {
           print('========> $e');
         }
-        // navigateToPageAndRemove(context, OrderComplete());
+        navigateToPageAndRemove(context, OrderComplete());
+        shopBloc.add(ShopAddProductEvent([]));
       },
       child: Container(
         decoration: BoxDecoration(

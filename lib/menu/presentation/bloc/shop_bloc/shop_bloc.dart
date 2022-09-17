@@ -11,5 +11,8 @@ class ShopBloc extends Bloc<ShopEvent, ShopState> {
     on<ShopAddProductEvent>((event, emit) {
       emit(ShopNewState(event.listShop));
     });
+    on<ShopRemoveProductEvent>((event, emit) {
+      emit(ShopNewState([]));
+    });
   }
 }

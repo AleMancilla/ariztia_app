@@ -8,3 +8,7 @@ class ShopAddProductEvent extends ShopEvent {
 
   ShopAddProductEvent(this.listShop);
 }
+
+class ShopRemoveProductEvent extends ShopEvent {
+  ShopRemoveProductEvent();
+}
