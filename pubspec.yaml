@@ -39,6 +39,7 @@ dependencies:
   cloud_firestore: ^3.4.7
   status_alert: ^1.0.0
   flutter_launcher_icons: ^0.10.0
+  url_launcher: ^6.1.5
 
 dev_dependencies:
   flutter_test:
