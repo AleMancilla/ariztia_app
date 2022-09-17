@@ -200,7 +200,7 @@ class ItemOptions {
   // }
 
   Map<String, Object> toJson() {
-    return {'name': name, 'price': price};
+    return {'name': name, 'price': price, 'isSelect': isSelect};
   }
 
   @override

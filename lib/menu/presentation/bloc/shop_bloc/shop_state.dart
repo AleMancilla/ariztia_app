@@ -19,4 +19,11 @@ class ProductShop {
   int amount;
   final ProductModel product;
   ProductShop(this.amount, this.product);
+
+  Map<String, dynamic> toJson() {
+    return {
+      'amount': amount,
+      'product': product.toJson(),
+    };
+  }
 }

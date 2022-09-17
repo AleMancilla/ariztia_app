@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:ariztia_app/core/constants/api_firebase_constant.dart';
 import 'package:ariztia_app/core/utils.dart';
 import 'package:ariztia_app/menu/presentation/bloc/shop_bloc/shop_bloc.dart';
 import 'package:ariztia_app/menu/presentation/pages/order_complete.dart';
@@ -120,7 +123,7 @@ class _ShopDetailsScreenState extends State<ShopDetailsScreen> {
                     ),
                   ),
                   SizedBox(height: 20),
-                  _btnEnviarPedido(size)
+                  _btnEnviarPedido(size, shopBloc),
                 ],
               ),
             )
@@ -130,15 +133,24 @@ class _ShopDetailsScreenState extends State<ShopDetailsScreen> {
     );
   }
 
-  InkWell _btnEnviarPedido(Size size) {
+  InkWell _btnEnviarPedido(Size size, ShopBloc shopBloc) {
     return InkWell(
       onTap: () {
-        // shopBloc.add(ShopAddProductEvent([
-        //   ...shopBloc.state.listProductShop,
-        //   ProductShop(amount, widget.product)
-        // ]));
-        // Navigator.pop(context);
-        navigateToPageAndRemove(context, OrderComplete());
+        List<ProductShop> listToSend = shopBloc.state.listProductShop;
+        List<Map<String, dynamic>> _listToSend =
+            listToSend.map((e) => e.toJson()).toList();
+        try {
+          Map<String, dynamic> toSend = {'listOrders': _listToSend};
+          print(toSend);
+          print('_____________________');
+          ariztiaOrders
+              .add(toSend)
+              .then((value) => print("order Added"))
+              .catchError((error) => print("Failed to add order: $error"));
+        } catch (e) {
+          print('========> $e');
+        }
+        // navigateToPageAndRemove(context, OrderComplete());
       },
       child: Container(
         decoration: BoxDecoration(
@@ -168,7 +180,7 @@ class _ShopDetailsScreenState extends State<ShopDetailsScreen> {
 
   Container _amountProduct(int amount) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 5),
+      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(100),
         color: Colors.grey[300],
