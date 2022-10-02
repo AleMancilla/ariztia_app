@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CategoriesList extends StatefulWidget {
   final CategoryBloc categoryBloc;
+  final Function(String) changeCategory;
   const CategoriesList({
     Key? key,
     this.categories = const [
@@ -14,6 +15,7 @@ class CategoriesList extends StatefulWidget {
       'Bebidas',
     ],
     required this.categoryBloc,
+    required this.changeCategory,
   }) : super(key: key);
   final List<String> categories;
 
@@ -24,7 +26,7 @@ class CategoriesList extends StatefulWidget {
 class _CategoriesListState extends State<CategoriesList> {
   @override
   void initState() {
-    Future.delayed(Duration(milliseconds: 500), () {
+    Future.delayed(Duration(milliseconds: 1500), () {
       widget.categories.sort(
         (a, b) => a.compareTo(b),
       );
@@ -56,6 +58,7 @@ class _CategoriesListState extends State<CategoriesList> {
         onTap: () {
           widget.categoryBloc.add(
               CategoryChangeEvent(e, widget.categoryBloc.state.listCategories));
+          widget.changeCategory(e);
         },
         child: CategorieItem(title: e, categoryBloc: widget.categoryBloc),
       );

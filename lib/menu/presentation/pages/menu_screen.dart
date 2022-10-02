@@ -45,6 +45,10 @@ class _MenuScreenState extends State<MenuScreen> {
     final Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
+        primary: true,
+        // floatingActionButton: FloatingActionButton(onPressed: () {
+        //   Scrollable.ensureVisible(listGlobalKey[1].currentContext!);
+        // }),
         body: Column(
           children: [
             const AppBarAriztia(),
@@ -55,6 +59,13 @@ class _MenuScreenState extends State<MenuScreen> {
                 return CategoriesList(
                   categoryBloc: categoryBloc,
                   categories: categoryBloc.state.listCategories,
+                  changeCategory: (data) {
+                    print('------ $data -- ${forValitation.indexOf(data)}');
+                    Scrollable.ensureVisible(
+                        listGlobalKey[forValitation.indexOf(data)]
+                            .currentContext!,
+                        duration: Duration(milliseconds: 500));
+                  },
                 );
               },
             ),
@@ -70,9 +81,11 @@ class _MenuScreenState extends State<MenuScreen> {
                     return Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 15, vertical: 5),
-                      child: ListView(
-                        children: getProductsByCategory(state.listProduct),
-                        scrollDirection: Axis.vertical,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: getProductsByCategory(state.listProduct),
+                          // scrollDirection: Axis.vertical,
+                        ),
                       ),
                     );
                   }
@@ -88,15 +101,21 @@ class _MenuScreenState extends State<MenuScreen> {
     );
   }
 
+  List<GlobalKey> listGlobalKey = [];
+  List<String> forValitation = [];
   List<Widget> getProductsByCategory(List<ProductModel> listProducts) {
+    listGlobalKey = [];
+    forValitation = [];
     List<Widget> listToReturn = [];
-    List<String> forValitation = [];
     // someObjects.sort((a, b) => a.someProperty.compareTo(b.someProperty));
+    int indexListKeys = 0;
     listProducts
         .sort((a, b) => a.category.toString().compareTo(b.category.toString()));
-    listProducts.forEach((element) {
+    for (var element in listProducts) {
       if (!forValitation.contains(element.category)) {
-        listToReturn.add(Container(
+        listGlobalKey.add(GlobalKey());
+        listToReturn.add(Card(
+          key: listGlobalKey[indexListKeys],
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
@@ -118,6 +137,7 @@ class _MenuScreenState extends State<MenuScreen> {
           ),
         ));
         forValitation.add(element.category.toString());
+        indexListKeys = indexListKeys + 1;
       }
       listToReturn.add(Material(
         child: InkWell(
@@ -127,7 +147,7 @@ class _MenuScreenState extends State<MenuScreen> {
           },
         ),
       ));
-    });
+    }
     return listToReturn;
   }
 
