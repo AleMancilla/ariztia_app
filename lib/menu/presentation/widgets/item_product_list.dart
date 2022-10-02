@@ -59,12 +59,15 @@ class ItemProductList extends StatelessWidget {
             left: 0,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: CachedNetworkImage(
-                imageUrl: product.photo,
-                placeholder: (context, url) =>
-                    Center(child: CircularProgressIndicator()),
-                errorWidget: (context, url, error) => Icon(Icons.error),
-                fit: BoxFit.cover,
+              child: Hero(
+                tag: product.idProduct,
+                child: CachedNetworkImage(
+                  imageUrl: product.photo,
+                  placeholder: (context, url) =>
+                      Center(child: CircularProgressIndicator()),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
+                  fit: BoxFit.cover,
+                ),
               ),
               // Image.network(
               //   product.photo,

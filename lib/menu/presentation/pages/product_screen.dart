@@ -1,5 +1,6 @@
 import 'package:ariztia_app/menu/data/models/product_model.dart';
 import 'package:ariztia_app/menu/presentation/bloc/shop_bloc/shop_bloc.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -191,15 +192,25 @@ class _ProductScreenState extends State<ProductScreen> {
     );
   }
 
-  ClipRRect _imageProduct(Size size) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(40),
-      child: Image.network(
-        widget.product.photo,
-        width: size.width,
-        height: size.width,
-        fit: BoxFit.cover,
-      ),
+  Widget _imageProduct(Size size) {
+    return Hero(
+      tag: widget.product.idProduct,
+      child: ClipRRect(
+          borderRadius: BorderRadius.circular(40),
+          child: CachedNetworkImage(
+            imageUrl: widget.product.photo,
+            placeholder: (context, url) =>
+                Center(child: CircularProgressIndicator()),
+            errorWidget: (context, url, error) => Icon(Icons.error),
+            fit: BoxFit.cover,
+            width: size.width,
+            height: size.width,
+          )
+          // Image.network(
+          //   widget.product.photo,
+          //   fit: BoxFit.cover,
+          // ),
+          ),
     );
   }
 }
