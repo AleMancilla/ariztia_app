@@ -24,9 +24,13 @@ class CategoriesList extends StatefulWidget {
 class _CategoriesListState extends State<CategoriesList> {
   @override
   void initState() {
-    Future.delayed(Duration.zero, () {
+    Future.delayed(Duration(milliseconds: 500), () {
+      widget.categories.sort(
+        (a, b) => a.compareTo(b),
+      );
       if (widget.categories.isNotEmpty) {
-        widget.categoryBloc.add(CategoryChangeEvent(widget.categories[0]));
+        widget.categoryBloc.add(CategoryChangeEvent(
+            widget.categories[0], widget.categoryBloc.state.listCategories));
       }
     });
     super.initState();
@@ -50,7 +54,8 @@ class _CategoriesListState extends State<CategoriesList> {
 
   InkWell _btnCategorie(String e, BuildContext contextc) => InkWell(
         onTap: () {
-          widget.categoryBloc.add(CategoryChangeEvent(e));
+          widget.categoryBloc.add(
+              CategoryChangeEvent(e, widget.categoryBloc.state.listCategories));
         },
         child: CategorieItem(title: e, categoryBloc: widget.categoryBloc),
       );

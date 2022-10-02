@@ -1,4 +1,5 @@
 import 'package:ariztia_app/core/utils.dart';
+import 'package:ariztia_app/menu/data/models/product_model.dart';
 import 'package:ariztia_app/menu/presentation/bloc/business_bloc/business_bloc.dart';
 import 'package:ariztia_app/menu/presentation/bloc/category_bloc/category_bloc.dart';
 import 'package:ariztia_app/menu/presentation/bloc/products_bloc/products_bloc.dart';
@@ -20,12 +21,16 @@ class MenuScreen extends StatefulWidget {
 }
 
 class _MenuScreenState extends State<MenuScreen> {
+  List<String> allCategories = [];
   @override
   void initState() {
-    Future.delayed(Duration.zero, () {
+    Future.delayed(Duration.zero, () async {
       final BusinessBloc businessBloc =
           BlocProvider.of<BusinessBloc>(context, listen: false);
-      chargeAllProducts(context, idBusinnes: businessBloc.state.idBusiness);
+      await chargeAllProducts(
+        context,
+        idBusinnes: businessBloc.state.idBusiness,
+      );
     });
     super.initState();
   }
@@ -33,7 +38,7 @@ class _MenuScreenState extends State<MenuScreen> {
   @override
   Widget build(BuildContext context) {
     final CategoryBloc categoryBloc =
-        BlocProvider.of<CategoryBloc>(context, listen: false);
+        BlocProvider.of<CategoryBloc>(context, listen: true);
     final ShopBloc shopBloc = BlocProvider.of<ShopBloc>(context, listen: true);
     // final ProductsBloc productsBloc =
     //     BlocProvider.of<ProductsBloc>(context, listen: true);
@@ -44,7 +49,15 @@ class _MenuScreenState extends State<MenuScreen> {
           children: [
             const AppBarAriztia(),
             const SizedBox(height: 10),
-            CategoriesList(categoryBloc: categoryBloc),
+            BlocBuilder<CategoryBloc, CategoryState>(
+              builder: (context, state) {
+                // categoryBloc.state.listCategories.sort((a, b) => a.compareTo(b));
+                return CategoriesList(
+                  categoryBloc: categoryBloc,
+                  categories: categoryBloc.state.listCategories,
+                );
+              },
+            ),
             const SizedBox(height: 10),
             Expanded(
               child: BlocBuilder<ProductsBloc, ProductsState>(
@@ -53,23 +66,12 @@ class _MenuScreenState extends State<MenuScreen> {
                     return const Text('cargando....');
                   }
                   if (state is ProductsFinalState) {
+                    print(state.listProduct);
                     return Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 15, vertical: 5),
                       child: ListView(
-                        children: state.listProduct
-                            .map(
-                              (e) => Material(
-                                child: InkWell(
-                                  child: ItemProductList(product: e),
-                                  onTap: () {
-                                    navigateToPage(
-                                        context, ProductScreen(product: e));
-                                  },
-                                ),
-                              ),
-                            )
-                            .toList(),
+                        children: getProductsByCategory(state.listProduct),
                         scrollDirection: Axis.vertical,
                       ),
                     );
@@ -84,6 +86,49 @@ class _MenuScreenState extends State<MenuScreen> {
         ),
       ),
     );
+  }
+
+  List<Widget> getProductsByCategory(List<ProductModel> listProducts) {
+    List<Widget> listToReturn = [];
+    List<String> forValitation = [];
+    // someObjects.sort((a, b) => a.someProperty.compareTo(b.someProperty));
+    listProducts
+        .sort((a, b) => a.category.toString().compareTo(b.category.toString()));
+    listProducts.forEach((element) {
+      if (!forValitation.contains(element.category)) {
+        listToReturn.add(Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                element.category.toString(),
+                style: TextStyle(
+                  color: Colors.red[900],
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Container(
+                width: double.infinity,
+                height: 2,
+                color: Colors.red[900],
+              )
+            ],
+          ),
+        ));
+        forValitation.add(element.category.toString());
+      }
+      listToReturn.add(Material(
+        child: InkWell(
+          child: ItemProductList(product: element),
+          onTap: () {
+            navigateToPage(context, ProductScreen(product: element));
+          },
+        ),
+      ));
+    });
+    return listToReturn;
   }
 
   InkWell _btnConfirmarPedido(Size size, ShopBloc shopBloc) {

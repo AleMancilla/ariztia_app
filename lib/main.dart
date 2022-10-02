@@ -1,3 +1,5 @@
+//@dart=2.9 --no-sound-null-safety
+
 import 'package:ariztia_app/menu/presentation/bloc/business_bloc/business_bloc.dart';
 import 'package:ariztia_app/menu/presentation/bloc/category_bloc/category_bloc.dart';
 import 'package:ariztia_app/menu/presentation/bloc/products_bloc/products_bloc.dart';

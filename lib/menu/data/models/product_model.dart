@@ -63,6 +63,7 @@ class ProductModel {
   String idProduct;
   String name;
   String? nameBusiness;
+  String? category;
   String photo;
   double price;
   bool? stock;
@@ -113,6 +114,7 @@ class ProductModel {
     this.idProduct = '',
     this.name = '',
     this.nameBusiness = '',
+    this.category,
     this.options = const [],
     this.photo = '',
     // this.tokenNotificationBusiness,

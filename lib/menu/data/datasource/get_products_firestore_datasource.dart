@@ -48,6 +48,7 @@ class GetProductsFirestoreDatasource {
               emergency: _json['emergency'],
               isOpen: _json['isOpen'],
               rangePriority: _json['rangePriority'],
+              category: _json['category'],
               options: listOptions);
 
           listProducts.add(productModel);
