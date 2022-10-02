@@ -1,4 +1,5 @@
 import 'package:ariztia_app/menu/data/models/product_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class ItemProductList extends StatelessWidget {
@@ -58,10 +59,16 @@ class ItemProductList extends StatelessWidget {
             left: 0,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: Image.network(
-                product.photo,
+              child: CachedNetworkImage(
+                imageUrl: product.photo,
+                placeholder: (context, url) =>
+                    Center(child: CircularProgressIndicator()),
+                errorWidget: (context, url, error) => Icon(Icons.error),
                 fit: BoxFit.cover,
               ),
+              // Image.network(
+              //   product.photo,
+              // ),
             ),
             height: 120,
             width: 150,

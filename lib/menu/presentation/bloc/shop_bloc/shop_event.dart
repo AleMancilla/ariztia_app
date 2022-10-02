@@ -9,6 +9,12 @@ class ShopAddProductEvent extends ShopEvent {
   ShopAddProductEvent(this.listShop);
 }
 
+class ShopRemoveOneProductEvent extends ShopEvent {
+  final ProductShop itemShop;
+
+  ShopRemoveOneProductEvent(this.itemShop);
+}
+
 class ShopRemoveProductEvent extends ShopEvent {
   ShopRemoveProductEvent();
 }

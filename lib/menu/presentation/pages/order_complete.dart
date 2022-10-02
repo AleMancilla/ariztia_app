@@ -62,7 +62,7 @@ class OrderComplete extends StatelessWidget {
                       height: 40,
                     ),
                     Text(
-                      'Atencion al cliente',
+                      'Atención al cliente',
                       style: TextStyle(
                         color: Colors.red[800],
                         fontWeight: FontWeight.w600,
@@ -81,7 +81,7 @@ class OrderComplete extends StatelessWidget {
                     'https://docs.google.com/forms/d/e/1FAIpQLSeNhBPSSNx9BBtGagi_644q2qeWIA6egp4eeWYzpDO5fOY6hA/viewform?usp=sf_link');
               },
               child: Text(
-                'Atencion al cliente',
+                'Ayúdanos a mejorar',
                 style: TextStyle(
                     color: Colors.red[800],
                     fontWeight: FontWeight.w300,
