@@ -62,6 +62,7 @@ class _ProductScreenState extends State<ProductScreen> {
   }
 
   Expanded _options() {
+    print(widget.product.options);
     return Expanded(
       child: SingleChildScrollView(
         child: Column(
@@ -84,6 +85,11 @@ class _ProductScreenState extends State<ProductScreen> {
                         children: e.optionsItems
                             .map((ItemOptions item) => InkWell(
                                   onTap: () {
+                                    if (e.quantity == 1) {
+                                      e.optionsItems.forEach((element) {
+                                        element.isSelect = false;
+                                      });
+                                    }
                                     item.isSelect = !item.isSelect;
                                     setState(() {});
                                   },
