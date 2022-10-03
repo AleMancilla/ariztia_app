@@ -30,153 +30,164 @@ class _ShopDetailsScreenState extends State<ShopDetailsScreen> {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: const Text('Detalle de compra',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: shopBloc.state.listProductShop
-                      .map(
-                        (ProductShop productShop) => Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 15, top: 10, right: 10),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(100),
-                                child: SizedBox(
-                                  child: CachedNetworkImage(
-                                    imageUrl: productShop.product.photo,
-                                    placeholder: (context, url) => Center(
-                                        child: CircularProgressIndicator()),
-                                    errorWidget: (context, url, error) =>
-                                        Icon(Icons.error),
-                                    fit: BoxFit.cover,
-                                  ),
-                                  width: 50,
-                                  height: 50,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    productShop.product.name,
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16),
-                                  ),
-                                  Text(
-                                    'Bs. ${productShop.product.price}',
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            _amountProduct(productShop),
-                          ],
-                        ),
-                      )
-                      .toList(),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Total',
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          Text(
-                            'Bs. ${_getTotalPrice(shopBloc)}',
-                            style: TextStyle(
-                                color: Colors.grey[800],
-                                fontSize: 25,
-                                fontWeight: FontWeight.w400),
-                          ),
-                        ],
-                      ),
-                      Expanded(child: Container()),
-                      Row(
-                        children: [
-                          _radioButton('Mesa'),
-                          const SizedBox(width: 10),
-                          _radioButton('Para llevar'),
-                        ],
-                      )
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Text(
-                    typeOrder == 'Mesa'
-                        ? 'Ingresa el Nº de mesa'
-                        : 'Ingresa tu número de whatsapp',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  SizedBox(height: 10),
-                  Container(
-                    height: 40,
-                    child: TextField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                      ),
-                      keyboardType: TextInputType.phone,
-                      controller: controllertype,
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Text(
-                    'Razón social o Apellido',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  SizedBox(height: 10),
-                  Container(
-                    height: 40,
-                    child: TextField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                      ),
-                      controller: controllerRazonSocial,
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Text(
-                    'CI o NIT',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  SizedBox(height: 10),
-                  Container(
-                    height: 40,
-                    child: TextField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                      ),
-                      keyboardType: TextInputType.phone,
-                      controller: controllerCi,
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  _btnEnviarPedido(size, shopBloc),
-                ],
-              ),
-            )
+            _cabecera(),
+            _itemsShop(shopBloc),
+            _informationAndButton(shopBloc, size)
           ],
         ),
       ),
+    );
+  }
+
+  Padding _informationAndButton(ShopBloc shopBloc, Size size) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Total',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  Text(
+                    'Bs. ${_getTotalPrice(shopBloc)}',
+                    style: TextStyle(
+                        color: Colors.grey[800],
+                        fontSize: 25,
+                        fontWeight: FontWeight.w400),
+                  ),
+                ],
+              ),
+              Expanded(child: Container()),
+              Row(
+                children: [
+                  _radioButton('Mesa'),
+                  const SizedBox(width: 10),
+                  _radioButton('Para llevar'),
+                ],
+              )
+            ],
+          ),
+          SizedBox(height: 20),
+          Text(
+            typeOrder == 'Mesa'
+                ? 'Ingresa el Nº de mesa'
+                : 'Ingresa tu número de whatsapp',
+            style: TextStyle(fontSize: 20),
+          ),
+          SizedBox(height: 10),
+          Container(
+            height: 40,
+            child: TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+              ),
+              keyboardType: TextInputType.phone,
+              controller: controllertype,
+            ),
+          ),
+          SizedBox(height: 20),
+          Text(
+            'Razón social o Apellido',
+            style: TextStyle(fontSize: 20),
+          ),
+          SizedBox(height: 10),
+          Container(
+            height: 40,
+            child: TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+              ),
+              controller: controllerRazonSocial,
+            ),
+          ),
+          SizedBox(height: 20),
+          Text(
+            'CI o NIT',
+            style: TextStyle(fontSize: 20),
+          ),
+          SizedBox(height: 10),
+          Container(
+            height: 40,
+            child: TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+              ),
+              keyboardType: TextInputType.phone,
+              controller: controllerCi,
+            ),
+          ),
+          SizedBox(height: 20),
+          _btnEnviarPedido(size, shopBloc),
+        ],
+      ),
+    );
+  }
+
+  Expanded _itemsShop(ShopBloc shopBloc) {
+    return Expanded(
+      child: SingleChildScrollView(
+        child: Column(
+          children: shopBloc.state.listProductShop
+              .map(
+                (ProductShop productShop) => Row(
+                  children: [
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 15, top: 10, right: 10),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: SizedBox(
+                          child: CachedNetworkImage(
+                            imageUrl: productShop.product.photo,
+                            placeholder: (context, url) =>
+                                Center(child: CircularProgressIndicator()),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
+                            fit: BoxFit.cover,
+                          ),
+                          width: 50,
+                          height: 50,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            productShop.product.name,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w500, fontSize: 16),
+                          ),
+                          Text(
+                            'Bs. ${productShop.product.price}',
+                            style: TextStyle(fontSize: 12),
+                          ),
+                        ],
+                      ),
+                    ),
+                    _amountProduct(productShop),
+                  ],
+                ),
+              )
+              .toList(),
+        ),
+      ),
+    );
+  }
+
+  Container _cabecera() {
+    return Container(
+      alignment: Alignment.center,
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: const Text('Detalle de compra',
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
     );
   }
 

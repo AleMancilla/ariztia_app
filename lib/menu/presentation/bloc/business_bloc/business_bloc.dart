@@ -8,9 +8,11 @@ part 'business_state.dart';
 class BusinessBloc extends Bloc<BusinessEvent, BusinessState> {
   BusinessBloc() : super(BusinessInitial()) {
     on<BusinessEvent>((event, emit) {});
+
     on<BusinessGetListEvent>((event, emit) {
       emit(BusinessListState(event.lisBusiness));
     });
+
     on<BusinessSelectOneEvent>((event, emit) {
       emit(BusinessSelectedState(event.id!, event.name!, const []));
     });

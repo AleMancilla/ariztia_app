@@ -53,51 +53,58 @@ class _MenuScreenState extends State<MenuScreen> {
           children: [
             const AppBarAriztia(),
             const SizedBox(height: 10),
-            BlocBuilder<CategoryBloc, CategoryState>(
-              builder: (context, state) {
-                // categoryBloc.state.listCategories.sort((a, b) => a.compareTo(b));
-                return CategoriesList(
-                  categoryBloc: categoryBloc,
-                  categories: categoryBloc.state.listCategories,
-                  changeCategory: (data) {
-                    print('------ $data -- ${forValitation.indexOf(data)}');
-                    Scrollable.ensureVisible(
-                        listGlobalKey[forValitation.indexOf(data)]
-                            .currentContext!,
-                        duration: Duration(milliseconds: 500));
-                  },
-                );
-              },
-            ),
+            _categories(categoryBloc),
             const SizedBox(height: 10),
-            Expanded(
-              child: BlocBuilder<ProductsBloc, ProductsState>(
-                builder: (context, state) {
-                  if (state is ProductsLoadState) {
-                    return const Text('cargando....');
-                  }
-                  if (state is ProductsFinalState) {
-                    print(state.listProduct);
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 5),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: getProductsByCategory(state.listProduct),
-                          // scrollDirection: Axis.vertical,
-                        ),
-                      ),
-                    );
-                  }
-                  return Container();
-                },
-              ),
-            ),
+            _productByCategories(),
             if (shopBloc.state.listProductShop.isNotEmpty)
               _btnConfirmarPedido(size, shopBloc),
           ],
         ),
       ),
+    );
+  }
+
+  Expanded _productByCategories() {
+    return Expanded(
+      child: BlocBuilder<ProductsBloc, ProductsState>(
+        builder: (context, state) {
+          if (state is ProductsLoadState) {
+            return const Text('cargando....');
+          }
+          if (state is ProductsFinalState) {
+            print(state.listProduct);
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: getProductsByCategory(state.listProduct),
+                  // scrollDirection: Axis.vertical,
+                ),
+              ),
+            );
+          }
+          return Container();
+        },
+      ),
+    );
+  }
+
+  BlocBuilder<CategoryBloc, CategoryState> _categories(
+      CategoryBloc categoryBloc) {
+    return BlocBuilder<CategoryBloc, CategoryState>(
+      builder: (context, state) {
+        // categoryBloc.state.listCategories.sort((a, b) => a.compareTo(b));
+        return CategoriesList(
+          categoryBloc: categoryBloc,
+          categories: categoryBloc.state.listCategories,
+          changeCategory: (data) {
+            //scrollea hasta donde corresponde
+            Scrollable.ensureVisible(
+                listGlobalKey[forValitation.indexOf(data)].currentContext!,
+                duration: Duration(milliseconds: 500));
+          },
+        );
+      },
     );
   }
 
@@ -109,46 +116,14 @@ class _MenuScreenState extends State<MenuScreen> {
     List<Widget> listToReturn = [];
     // someObjects.sort((a, b) => a.someProperty.compareTo(b.someProperty));
     int indexListKeys = 0;
+    // ORDENANDO LA LISTA DE PRODUCTOS
     listProducts
         .sort((a, b) => a.category.toString().compareTo(b.category.toString()));
+
     for (var element in listProducts) {
       if (!forValitation.contains(element.category)) {
         listGlobalKey.add(GlobalKey());
-        listToReturn.add(Card(
-          key: listGlobalKey[indexListKeys],
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                children: [
-                  // Image.asset(
-                  //   getImageCategory(element.category.toString()),
-                  //   width: 30,
-                  //   height: 30,
-                  //   color: Colors.red[900],
-                  // ),
-                  // const SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      element.category.toString(),
-                      style: TextStyle(
-                        color: Colors.red[900],
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                width: double.infinity,
-                height: 2,
-                color: Colors.red[900],
-              )
-            ],
-          ),
-        ));
+        listToReturn.add(_categorieProductText(indexListKeys, element));
         forValitation.add(element.category.toString());
         indexListKeys = indexListKeys + 1;
       }
@@ -162,6 +137,44 @@ class _MenuScreenState extends State<MenuScreen> {
       ));
     }
     return listToReturn;
+  }
+
+  Card _categorieProductText(int indexListKeys, ProductModel element) {
+    return Card(
+      key: listGlobalKey[indexListKeys],
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            children: [
+              // Image.asset(
+              //   getImageCategory(element.category.toString()),
+              //   width: 30,
+              //   height: 30,
+              //   color: Colors.red[900],
+              // ),
+              // const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  element.category.toString(),
+                  style: TextStyle(
+                    color: Colors.red[900],
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Container(
+            width: double.infinity,
+            height: 2,
+            color: Colors.red[900],
+          )
+        ],
+      ),
+    );
   }
 
   String getImageCategory(String item) {
