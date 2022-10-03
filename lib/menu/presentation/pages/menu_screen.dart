@@ -120,13 +120,26 @@ class _MenuScreenState extends State<MenuScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                element.category.toString(),
-                style: TextStyle(
-                  color: Colors.red[900],
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+              Row(
+                children: [
+                  // Image.asset(
+                  //   getImageCategory(element.category.toString()),
+                  //   width: 30,
+                  //   height: 30,
+                  //   color: Colors.red[900],
+                  // ),
+                  // const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      element.category.toString(),
+                      style: TextStyle(
+                        color: Colors.red[900],
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
               ),
               Container(
                 width: double.infinity,
@@ -149,6 +162,26 @@ class _MenuScreenState extends State<MenuScreen> {
       ));
     }
     return listToReturn;
+  }
+
+  String getImageCategory(String item) {
+    item = item.toLowerCase().trim();
+    if (item == 'bebidas y postres') {
+      return 'assets/images/iconoscategorias/postres.png';
+    }
+    if (item == 'broaster') {
+      return 'assets/images/iconoscategorias/broaster.png';
+    }
+    if (item == 'hamburguesa') {
+      return 'assets/images/iconoscategorias/burguer.png';
+    }
+    if (item == 'porciones') {
+      return 'assets/images/iconoscategorias/porciones.png';
+    }
+    if (item == 'spiedo') {
+      return 'assets/images/iconoscategorias/spiedo.png';
+    }
+    return 'assets/images/iconoscategorias/broaster.png';
   }
 
   InkWell _btnConfirmarPedido(Size size, ShopBloc shopBloc) {

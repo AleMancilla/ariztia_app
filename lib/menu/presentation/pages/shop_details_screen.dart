@@ -4,6 +4,7 @@ import 'package:ariztia_app/core/constants/api_firebase_constant.dart';
 import 'package:ariztia_app/core/utils.dart';
 import 'package:ariztia_app/menu/presentation/bloc/shop_bloc/shop_bloc.dart';
 import 'package:ariztia_app/menu/presentation/pages/order_complete.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:edge_alert/edge_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -48,8 +49,12 @@ class _ShopDetailsScreenState extends State<ShopDetailsScreen> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(100),
                                 child: SizedBox(
-                                  child: Image.network(
-                                    productShop.product.photo,
+                                  child: CachedNetworkImage(
+                                    imageUrl: productShop.product.photo,
+                                    placeholder: (context, url) => Center(
+                                        child: CircularProgressIndicator()),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
                                     fit: BoxFit.cover,
                                   ),
                                   width: 50,

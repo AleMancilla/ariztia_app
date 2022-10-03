@@ -81,13 +81,44 @@ class CategorieItem extends StatelessWidget {
         color: isSelect ? Colors.red.shade100 : Colors.transparent,
       ),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      child: Text(
-        title,
-        style: TextStyle(
-            color: isSelect ? Colors.red[900] : Colors.black,
-            fontSize: 18,
-            fontWeight: FontWeight.bold),
+      child: Row(
+        children: [
+          if (isSelect)
+            Image.asset(
+              getImageCategory(title.toString()),
+              width: 30,
+              height: 30,
+              color: Colors.red[900],
+            ),
+          Text(
+            title,
+            style: TextStyle(
+                color: isSelect ? Colors.red[900] : Colors.black,
+                fontSize: 18,
+                fontWeight: FontWeight.bold),
+          ),
+        ],
       ),
     );
+  }
+
+  String getImageCategory(String item) {
+    item = item.toLowerCase().trim();
+    if (item == 'bebidas y postres') {
+      return 'assets/images/iconoscategorias/postres.png';
+    }
+    if (item == 'broaster') {
+      return 'assets/images/iconoscategorias/broaster.png';
+    }
+    if (item == 'hamburguesa') {
+      return 'assets/images/iconoscategorias/burguer.png';
+    }
+    if (item == 'porciones') {
+      return 'assets/images/iconoscategorias/porciones.png';
+    }
+    if (item == 'spiedo') {
+      return 'assets/images/iconoscategorias/spiedo.png';
+    }
+    return 'assets/images/iconoscategorias/broaster.png';
   }
 }

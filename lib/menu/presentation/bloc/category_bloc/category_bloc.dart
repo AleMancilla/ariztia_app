@@ -13,6 +13,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
       emit(CategorySelectState(event.categorie, event.lista));
     });
     on<CategoriesListChargeEvent>((event, emit) {
+      event.lista.sort((a, b) => a.compareTo(b));
       emit(CategoryListCategoriesState(event.lista));
     });
   }

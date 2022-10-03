@@ -9,14 +9,34 @@ class OrderComplete extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(25.0),
+        padding: EdgeInsets.only(top: 0, bottom: 25, left: 25, right: 25),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            InkWell(
+              onTap: () => Navigator.pop(context),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.chevron_left_rounded,
+                    color: Colors.red[900],
+                    size: 60,
+                  ),
+                  Text(
+                    'Realizar otra compra',
+                    style: TextStyle(
+                      color: Colors.red[900],
+                      fontSize: 16,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(height: 40),
             Image.asset('assets/images/endscreenimage.png'),
             SizedBox(height: 40),
             Text(
-              'Order Recibida',
+              'Orden Recibida',
               style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.w800,
